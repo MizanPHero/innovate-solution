@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import AgeSelection from "./AgeSelection";
 
@@ -19,7 +19,10 @@ function App() {
 
   const [childrenAges, setChildrenAges] = useState([]);
 
-
+  useEffect(() => {
+    // Initialize the childrenAges array based on the initial number of children
+    setChildrenAges(Array.from({ length: childrenValue }, (_, index) => "0"));
+  }, [childrenValue]);
 
   const decreaseAdult = () => {
     if (adultValue > 1) {
@@ -193,7 +196,7 @@ function App() {
                     </select>
                   </div>
                   {/* adult passesnger */}
-                  <div className="flex items-center justify-between px-6 pt-6">
+                  <div className="flex items-center justify-between px-6 pt-4">
                     <div>
                       <span className="block text-base font-bold">Adults</span>
                       <span className="block text-base ">Aged 16+</span>
@@ -237,7 +240,7 @@ function App() {
 
                   {/* child passenger */}
 
-                  <div className="flex items-center justify-between px-6 pt-6">
+                  <div className="flex items-center justify-between px-6 pt-4">
                     <div>
                       <span className="block text-base font-bold">Children</span>
                       <span className="block text-base ">Aged 0 to 15</span>
@@ -275,20 +278,22 @@ function App() {
 
                       </button>
                     </div>
-                    {/* age of children */}
+                  </div>
 
-
-
-
-
-                    {/* Render age selection for each child */}
+                   {/* Render age selection for each child */}
+                   <div>
                     {childrenAges.map((age, index) => (
                       <AgeSelection key={index} index={index} age={age} onChange={handleChildAgeChange} />
                     ))}
+                    </div>
 
+                  <div className="px-6 pt-5">
+                    <p className="text-xs">Your age at time of travel must be valid for the age category booked. Airlines have restrictions on under 18s travelling alone.
+                      Age limits and policies for travelling with children may vary so please check with the airline before booking.</p>
+                  </div>
 
-
-
+                  <div className="px-6 pt-3 ">
+                    <button className="w-full rounded-md px-8 py-4 bg-[#0062e3] text-white">Search</button>
                   </div>
 
                 </div>
