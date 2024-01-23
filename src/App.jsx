@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
+import AgeSelection from "./AgeSelection";
 
 
 const formatDate = (date) => {
@@ -14,6 +15,11 @@ function App() {
   const [cabinClass, setCabinClass] = useState('Economy');
 
   const [adultValue, setAdultValue] = useState(1);
+  const [childrenValue, setChildrenValue] = useState(0);
+
+  const [childrenAges, setChildrenAges] = useState([]);
+
+
 
   const decreaseAdult = () => {
     if (adultValue > 1) {
@@ -25,8 +31,23 @@ function App() {
     setAdultValue(adultValue + 1);
   };
 
+  const decreaseChildren = () => {
+
+    setChildrenValue(childrenValue - 1);
+
+  };
 
 
+  const increaseChildren = () => {
+    setChildrenValue(childrenValue + 1);
+  };
+
+
+  const handleChildAgeChange = (index, age) => {
+    const updatedAges = [...childrenAges];
+    updatedAges[index] = age;
+    setChildrenAges(updatedAges);
+  };
 
 
   const [value, setValue] = useState({
@@ -64,7 +85,7 @@ function App() {
     console.log('Form submitted:', formData);
   };
 
-  console.log(adultValue);
+  console.log(childrenAges);
 
 
   const inputClass1 = "pt-8 pb-4 pl-4 pr-4 text-gray-900 border-0 rounded-sm rounded-l-2xl ring-1 ring-inset outline-[.5px] outline-transparent placeholder:text-gray-400 focus:ring-2 focus:ring-[#0062e3] sm:text-sm sm:leading-6";
@@ -171,7 +192,7 @@ function App() {
                       <option value="First">First Class</option>
                     </select>
                   </div>
-
+                  {/* adult passesnger */}
                   <div className="flex items-center justify-between px-6 pt-6">
                     <div>
                       <span className="block text-base font-bold">Adults</span>
@@ -184,6 +205,7 @@ function App() {
                         onClick={decreaseAdult}
                         type="button"
                         disabled={adultValue === 1}
+                        style={{ opacity: adultValue === 1 ? 0.4 : 1 }}
                       >
 
                         <svg
@@ -210,12 +232,71 @@ function App() {
                       </button>
                     </div>
                   </div>
+
+
+
+                  {/* child passenger */}
+
+                  <div className="flex items-center justify-between px-6 pt-6">
+                    <div>
+                      <span className="block text-base font-bold">Children</span>
+                      <span className="block text-base ">Aged 0 to 15</span>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-4">
+                      <button
+                        className="p-2 rounded-md bg-slate-200 hover:bg-slate-300"
+                        onClick={decreaseChildren}
+                        type="button"
+                        disabled={childrenValue === 0}
+                        style={{ opacity: childrenValue === 0 ? 0.4 : 1 }}
+                      >
+
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                          className=""
+                          style={{ width: "1rem", height: "1rem" }}
+                        >
+                          <path d="M1.5 12A1.5 1.5 0 013 10.5h18a1.5 1.5 0 010 3H3A1.5 1.5 0 011.5 12z"></path>
+                        </svg>
+
+                      </button>
+
+                      <span className="block text-base font-bold" >{childrenValue}</span>
+                      <button
+                        className="p-2 rounded-md bg-slate-200 hover:bg-slate-300"
+                        onClick={increaseChildren}
+                        type="button"
+                      >
+
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" className="" style={{ width: "1rem", height: "1rem" }}><path d="M12 1.5A1.5 1.5 0 0010.5 3v7.5H3a1.5 1.5 0 000 3h7.5V21a1.5 1.5 0 003 0v-7.5H21a1.5 1.5 0 000-3h-7.5V3A1.5 1.5 0 0012 1.5z"></path></svg>
+
+                      </button>
+                    </div>
+                    {/* age of children */}
+
+
+
+
+
+                    {/* Render age selection for each child */}
+                    {childrenAges.map((age, index) => (
+                      <AgeSelection key={index} index={index} age={age} onChange={handleChildAgeChange} />
+                    ))}
+
+
+
+
+                  </div>
+
                 </div>
               )}
             </div>
           </div>
 
-          <button type="submit">Search</button>
+          <button className="bg-[#024daf] min-w-fit text-white rounded-xl ml-4 px-5" type="submit">Search</button>
         </form>
       </div>
     </div>
