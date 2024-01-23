@@ -164,7 +164,7 @@ function App() {
                 <span className="block text-base">
                   Travellers and Cabin Classes
                 </span>
-                <span className="text-base">1 Adult, {cabinClass}</span>
+                <span className="text-base">{adultValue} Adult, {cabinClass}</span>
               </button>
 
               {isMenuOpen && (
